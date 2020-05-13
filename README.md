@@ -31,11 +31,10 @@ You can find documentation for the library in the [documentation folder](documen
 
 ## Products That Use This Library
 
-- [RockBLOCK MK2](http://www.rock7mobile.com/products-rockblock) - The original Rock7 RockBLOCK based on the 9602.
-- [RockBLOCK 9603](http://www.rock7mobile.com/products-rockblock-9603) - The newer, more compact RockBLOCK based on the 9603N.
-- [WRL-13745](https://www.sparkfun.com/products/13745) - The original RockBLOCK, also available from your friends at SparkFun.
-- [WRL-14498](https://www.sparkfun.com/products/14498) - The RockBLOCK 9603, also available from your friends at SparkFun.
-- [Qwiic Iridium 9603N](https://www.sparkfun.com/products/16394) - Provides I2C support instead of serial, allowing you to add Iridium SBD communication to any Qwiic or I2C project.
+- [WRL-13745](https://www.sparkfun.com/products/13745) - The original Rock7 RockBLOCK, available from your friends at SparkFun.
+- [WRL-14498](https://www.sparkfun.com/products/14498) - The Rock7 RockBLOCK 9603, available from your friends at SparkFun.
+- [SPX-16394](https://www.sparkfun.com/products/16394) - Qwiic Iridium 9603N: provides I2C support instead of serial, allowing you to add Iridium SBD communication to any Qwiic or I2C project.
+- [SPX-16469](https://www.sparkfun.com/products/16469) - Artemis Global Tracker: combining the Iridium 9603N, u-blox ZOE-M8Q and TE MS8607 into a single compact tracker.
 
 ## History
 
