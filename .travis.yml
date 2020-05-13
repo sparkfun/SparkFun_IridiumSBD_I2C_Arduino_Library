@@ -1,0 +1,98 @@
+language: c
+before_install:  
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16"
+  - sleep 3
+  - export DISPLAY=:1.0
+  - wget http://downloads.arduino.cc/arduino-1.8.9-linux64.tar.xz
+  - tar xf arduino-1.8.9-linux64.tar.xz
+  - sudo mv arduino-1.8.9 /usr/local/share/arduino
+  - sudo ln -s /usr/local/share/arduino/arduino /usr/local/bin/arduino
+
+  # Arduino IDE adds a lot of noise caused by network traffic, trying to firewall it off
+- sudo iptables -P INPUT DROP
+- sudo iptables -P FORWARD DROP
+- sudo iptables -P OUTPUT ACCEPT
+- sudo iptables -A INPUT -i lo -j ACCEPT
+- sudo iptables -A OUTPUT -o lo -j ACCEPT
+- sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+install:
+  - ln -s $PWD /usr/local/share/arduino/libraries/SparkFun_Qwiic_Button_Arduino_Library
+  - arduino --install-boards arduino:samd
+  - arduino --pref "boardsmanager.additional.urls=https://raw.githubusercontent.com/sparkfun/Arduino_Boards/master/IDE_Board_Manager/package_sparkfun_index.json,https://adafruit.github.io/arduino-board-index/package_adafruit_index.json" --save-prefs
+  - arduino --install-boards SparkFun:samd
+  - arduino --install-boards SparkFun:apollo3
+  - arduino --install-boards SparkFun:avr
+  - arduino --install-boards adafruit:avr
+
+
+script:
+# compile for SparkFun RedBoard
+- echo Compiling for SparkFun RedBoard...
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example1_GetIMEI/Example1_GetIMEI.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example2_CheckCSQ/Example2_CheckCSQ.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example3_GetTime/Example3_GetTime.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example4_BasicSend/Example4_BasicSend.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example5_Sleep/Example5_Sleep.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example6_SendReceive/Example6_SendReceive.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example7_Ring/Example7_Ring.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example8_Beacon/Example8_Beacon.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example9_PassThru/Example9_PassThru.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example10_LoopBack/Example10_LoopBack.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example11_LowPower/Example11_LowPower.ino
+
+# compile for SparkFun Artemis
+- echo Compiling for SparkFun Artemis...
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example1_GetIMEI/Example1_GetIMEI.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example2_CheckCSQ/Example2_CheckCSQ.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example3_GetTime/Example3_GetTime.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example4_BasicSend/Example4_BasicSend.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example5_Sleep/Example5_Sleep.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example6_SendReceive/Example6_SendReceive.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example7_Ring/Example7_Ring.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example8_Beacon/Example8_Beacon.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example9_PassThru/Example9_PassThru.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example10_LoopBack/Example10_LoopBack.ino
+- arduino --verify --board SparkFun:apollo3:amap3redboard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example11_LowPower/Example11_LowPower.ino
+
+# compile for SparkFun SAMD
+- echo Compiling for SparkFun SAMD...
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example1_GetIMEI/Example1_GetIMEI.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example2_CheckCSQ/Example2_CheckCSQ.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example3_GetTime/Example3_GetTime.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example4_BasicSend/Example4_BasicSend.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example5_Sleep/Example5_Sleep.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example6_SendReceive/Example6_SendReceive.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example7_Ring/Example7_Ring.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example8_Beacon/Example8_Beacon.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example9_PassThru/Example9_PassThru.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example10_LoopBack/Example10_LoopBack.ino
+- arduino --verify --board SparkFun:samd:samd51_thing_plus $PWD/examples/I2C_Examples__Qwiic_Iridium/Example11_LowPower/Example11_LowPower.ino
+
+# compile for Adafruit Trinket 5
+- echo Compiling for Adafruit ProTrinket 5...
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example1_GetIMEI/Example1_GetIMEI.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example2_CheckCSQ/Example2_CheckCSQ.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example3_GetTime/Example3_GetTime.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example4_BasicSend/Example4_BasicSend.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example5_Sleep/Example5_Sleep.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example6_SendReceive/Example6_SendReceive.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example7_Ring/Example7_Ring.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example8_Beacon/Example8_Beacon.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example9_PassThru/Example9_PassThru.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example10_LoopBack/Example10_LoopBack.ino
+- arduino --verify --board adafruit:avr:protrinket5 $PWD/examples/I2C_Examples__Qwiic_Iridium/Example11_LowPower/Example11_LowPower.ino
+
+# compile for Teensy 36
+- echo Compiling for SparkFun RedBoard...
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example1_GetIMEI/Example1_GetIMEI.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example2_CheckCSQ/Example2_CheckCSQ.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example3_GetTime/Example3_GetTime.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example4_BasicSend/Example4_BasicSend.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example5_Sleep/Example5_Sleep.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example6_SendReceive/Example6_SendReceive.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example7_Ring/Example7_Ring.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example8_Beacon/Example8_Beacon.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example9_PassThru/Example9_PassThru.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example10_LoopBack/Example10_LoopBack.ino
+- arduino --verify --board SparkFun:avr:RedBoard $PWD/examples/I2C_Examples__Qwiic_Iridium/Example11_LowPower/Example11_LowPower.ino
