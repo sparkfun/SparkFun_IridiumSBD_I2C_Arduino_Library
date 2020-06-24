@@ -1,28 +1,28 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * PassThru_I2C
- * 
+ *
  * This sketch allows you to send data directly from the serial console
- * to the modem.  Characters typed in the console are relayed to the 
+ * to the modem.  Characters typed in the console are relayed to the
  * modem and vice versa.
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
- * 
+ *
  * Open the Serial Monitor and set the Baud Rate to 115200
  * and the line ending to Carriage Return
- * 
+ *
  * Command    Response                Description
  * AT+CGMI    Iridium                 Get manufacturer identification
  * AT+CGMM    <model ID>              Get model identification
  * AT+CGMR    <version information>   Get revision
  * AT+CGSN    <IMEI>                  Get serial number (IMEI)
  * AT+CSQ     <signal quality 0-5>    Get signal quality
- * 
+ *
  * To send a Mobile Originated text message and check for a new Mobile Terminated message:
  * AT+SBDWT=Testing123                Write a text message to the MO buffer
  * AT+SBDS                            Read the MO and MT buffer status (MO flag should be '1')
@@ -33,12 +33,12 @@
  * AT+SBDRT                           Read the received text message (if there was one)
  * AT+SBDD1                           Clear the MT buffer
  * AT+SBDS                            Read the MO and MT buffer status (Both MO and MT flags should be '0')
- * 
+ *
  * The full AT command set can be found here:
  * http://www.rock7mobile.com/downloads/IRDM_ISU_ATCommandReferenceMAN0009_Rev2.0_ATCOMM_Oct2012.pdf
  * (Only a small sub-set of the commands apply to the 9603N)
  */
- 
+
 #define IridiumWire Wire
 #define DIAGNOSTICS false // Change this to see diagnostics
 
@@ -51,12 +51,12 @@ void setup()
 {
   int signalQuality = -1;
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
   Serial.println(F("Iridium SBD PassThru I2C"));
-  
+
   //empty the serial buffer
   while(Serial.available() > 0) Serial.read();
 

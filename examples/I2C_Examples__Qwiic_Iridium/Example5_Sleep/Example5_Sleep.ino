@@ -1,16 +1,16 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Sleep
- * 
+ *
  * This sketch demonstrates how to put the Qwiic Iridium to sleep.  The
  * general strategy is to call modem.begin() to start, then modem.sleep()
  * to stop.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
@@ -23,12 +23,12 @@
 IridiumSBD modem(IridiumWire);
 
 void setup()
-{ 
+{
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
   Serial.println(F("Iridium SBD Sleep I2C"));
-  
+
   //empty the serial buffer
   while(Serial.available() > 0) Serial.read();
 
@@ -117,7 +117,7 @@ void loop()
     Serial.print(F("sleep failed: error "));
     Serial.println(err);
   }
-  
+
   // Demonstrate that device is asleep
   Serial.println(F("Trying to send while asleep."));
   err = modem.sendSBDText("This shouldn't work.");

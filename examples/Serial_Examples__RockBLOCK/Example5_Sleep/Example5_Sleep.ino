@@ -1,19 +1,19 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 /*
  * Sleep
- * 
+ *
  * This sketch demonstrates how to use the RockBLOCK Sleep pin.  The
  * general strategy is to call modem.begin() to start, then modem.sleep()
  * to stop.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
  * works fine as well.
- * 
+ *
  * This sketch also assumes that pin 4 is connected to ON/OFF
  */
 
@@ -25,7 +25,7 @@
 IridiumSBD modem(IridiumSerial, SLEEP_PIN);
 
 void setup()
-{ 
+{
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial);

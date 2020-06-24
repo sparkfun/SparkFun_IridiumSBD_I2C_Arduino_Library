@@ -1,17 +1,17 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <time.h>
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Time
- * 
+ *
  * This sketch demonstrates how to retrieve the Iridium system time
  * from the modem using the getSystemTime method. This uses
  * the Iridium command AT-MSSTM to acquire the time.  The method will
  * fail if the Iridium network has not yet been acquired.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
@@ -26,12 +26,12 @@ IridiumSBD modem(IridiumWire);
 void setup()
 {
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
   Serial.println(F("Iridium SBD Time I2C"));
-  
+
   //empty the serial buffer
   while(Serial.available() > 0) Serial.read();
 

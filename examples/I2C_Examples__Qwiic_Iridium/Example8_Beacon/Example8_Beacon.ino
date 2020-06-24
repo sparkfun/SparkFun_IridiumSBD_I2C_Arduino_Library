@@ -1,4 +1,4 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <SparkFun_Ublox_Arduino_Library.h> //http://librarymanager/All#SparkFun_Ublox_GPS
 
@@ -9,13 +9,13 @@
 
 /*
  * Beacon
- * 
+ *
  * This sketch shows how you might use a GPS with the satellite modem
  * to create a beacon device that periodically transmits a location
  * message to the configured endpoints.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N and (e.g.) SAM-M8Q or ZOE-M8Q Breakout are connected via I2C.
@@ -43,7 +43,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
   Serial.println(F("Iridium SBD Beacon I2C"));
-  
+
   //empty the serial buffer
   while(Serial.available() > 0) Serial.read();
 
@@ -74,7 +74,7 @@ void setup()
 
   myGPS.setI2COutput(COM_TYPE_UBX); //Set the I2C port to output UBX only (turn off NMEA noise)
   myGPS.saveConfiguration(); //Save the current settings to flash and BBR
-  
+
   // Enable the supercapacitor charger
   Serial.println(F("Enabling the supercapacitor charger..."));
   modem.enableSuperCapCharger(true);

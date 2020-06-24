@@ -1,27 +1,27 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 /*
  * PassThru
- * 
+ *
  * This sketch allows you to send data directly from the Serial console
- * to the modem.  Characters typed in the console are relayed to the 
+ * to the modem.  Characters typed in the console are relayed to the
  * modem and vice versa.
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
  * works fine as well.
- * 
+ *
  * Open the Serial Monitor and set the Baud Rate to 115200
  * and the line ending to Carriage Return
- * 
+ *
  * Command    Response                Description
  * AT+CGMI    Iridium                 Get manufacturer identification
  * AT+CGMM    <model ID>              Get model identification
  * AT+CGMR    <version information>   Get revision
  * AT+CGSN    <IMEI>                  Get serial number (IMEI)
  * AT+CSQ     <signal quality 0-5>    Get signal quality
- * 
+ *
  * To send a Mobile Originated text message and check for a new Mobile Terminated message:
  * AT+SBDWT=Testing123                Write a text message to the MO buffer
  * AT+SBDS                            Read the MO and MT buffer status (MO flag should be '1')
@@ -32,12 +32,12 @@
  * AT+SBDRT                           Read the received text message (if there was one)
  * AT+SBDD1                           Clear the MT buffer
  * AT+SBDS                            Read the MO and MT buffer status (Both MO and MT flags should be '0')
- * 
+ *
  * The full AT command set can be found here:
  * http://www.rock7mobile.com/downloads/IRDM_ISU_ATCommandReferenceMAN0009_Rev2.0_ATCOMM_Oct2012.pdf
  * (Only a small sub-set of the commands apply to the 9603N)
  */
- 
+
 #define IridiumSerial Serial1
 #define DIAGNOSTICS false // Change this to see diagnostics
 

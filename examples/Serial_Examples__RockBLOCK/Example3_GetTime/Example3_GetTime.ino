@@ -1,15 +1,15 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <time.h>
 /*
  * Time
- * 
+ *
  * This sketch demonstrates how to retrieve the Iridium system time
  * from the modem using the getSystemTime method. This uses
  * the Iridium command AT-MSSTM to acquire the time.  The method will
  * fail if the Iridium network has not yet been acquired.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports. It assumes the satellite modem is
  * connected to Serial1. Change this as needed. SoftwareSerial on an Uno
@@ -25,7 +25,7 @@ IridiumSBD modem(IridiumSerial);
 void setup()
 {
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial);
@@ -33,7 +33,7 @@ void setup()
   // Start the serial port connected to the satellite modem
   IridiumSerial.begin(19200);
 
-  // If we're powering the device by USB, tell the library to 
+  // If we're powering the device by USB, tell the library to
   // relax timing constraints waiting for the supercap to recharge.
   modem.setPowerProfile(IridiumSBD::USB_POWER_PROFILE);
 

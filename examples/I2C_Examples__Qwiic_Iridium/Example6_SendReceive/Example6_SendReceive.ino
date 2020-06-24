@@ -1,23 +1,23 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * SendReceive
- * 
+ *
  * This sketch demonstrates a basic bidirectional transmission.  Before
  * loading this sketch, send a message to your Iridium modem from your
  * control panel or via email.  This sketch will send a binary buffer
  * of 11 bytes, then attempt to read the next incoming messages (if any).
  * It stops when there are no more messages to read.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
  */
- 
+
 #define IridiumWire Wire
 #define DIAGNOSTICS false // Change this to enable diagnostics
 
@@ -25,7 +25,7 @@
 IridiumSBD modem(IridiumWire);
 
 // Define the binary test message (Fibonacci sequence)
-uint8_t buffer[200] = 
+uint8_t buffer[200] =
 { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 };
 
 void setup()
@@ -105,7 +105,7 @@ static bool messageSent = false;
 void loop()
 {
   int err;
-  
+
   // Read/Write the first time or if there are any remaining messages
   if (!messageSent || modem.getWaitingMessageCount() > 0)
   {
@@ -116,7 +116,7 @@ void loop()
       err = modem.sendReceiveSBDBinary(buffer, 11, buffer, bufferSize);
     else
       err = modem.sendReceiveSBDText(NULL, buffer, bufferSize);
-      
+
     if (err != ISBD_SUCCESS)
     {
       Serial.print(F("sendReceiveSBD* failed: error "));
@@ -142,7 +142,7 @@ void loop()
       Serial.print(F("Messages remaining to be retrieved: "));
       Serial.println(modem.getWaitingMessageCount());
     }
-    
+
     // Clear the Mobile Originated message buffer to avoid re-sending the message during subsequent loops
     Serial.println(F("Clearing the MO buffer."));
     err = modem.clearBuffers(ISBD_CLEAR_MO); // Clear MO buffer

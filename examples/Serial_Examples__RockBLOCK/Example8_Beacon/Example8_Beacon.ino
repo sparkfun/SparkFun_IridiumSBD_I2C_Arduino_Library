@@ -1,15 +1,15 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 #include <TinyGPS++.h> // NMEA parsing: http://arduiniana.org
 
 /*
  * Beacon
- * 
+ *
  * This sketch shows how you might use a GPS with the satellite modem
  * to create a beacon device that periodically transmits a location
  * message to the configured endpoints.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
@@ -58,7 +58,7 @@ void loop()
   Serial.println(F("Beginning to listen for GPS traffic..."));
 
   // Look for GPS signal for up to 7 minutes
-  while ((!tinygps.location.isValid() || !tinygps.date.isValid()) && 
+  while ((!tinygps.location.isValid() || !tinygps.date.isValid()) &&
     millis() - loopStartTime < 7UL * 60UL * 1000UL)
   {
     if (GPSSerial.available())
@@ -81,12 +81,12 @@ void loop()
   // Step 3: Start talking to the RockBLOCK and power it up
   Serial.println(F("Beginning to talk to the RockBLOCK..."));
   char outBuffer[60]; // Always try to keep message short
-  sprintf(outBuffer, "%d%02d%02d%02d%02d%02d,%s%u.%09lu,%s%u.%09lu,%lu,%ld", 
-    tinygps.date.year(), 
-    tinygps.date.month(), 
-    tinygps.date.day(), 
-    tinygps.time.hour(), 
-    tinygps.time.minute(), 
+  sprintf(outBuffer, "%d%02d%02d%02d%02d%02d,%s%u.%09lu,%s%u.%09lu,%lu,%ld",
+    tinygps.date.year(),
+    tinygps.date.month(),
+    tinygps.date.day(),
+    tinygps.time.hour(),
+    tinygps.time.minute(),
     tinygps.time.second(),
     tinygps.location.rawLat().negative ? "-" : "",
     tinygps.location.rawLat().deg,

@@ -1,15 +1,15 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Check CSQ
- * 
+ *
  * This sketch checks the Iridium signal quality and returns the status
  * of the Network Available signal.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
@@ -25,7 +25,7 @@ void setup()
 {
   int signalQuality = -1;
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
@@ -132,7 +132,7 @@ void setup()
     delay(10000);
   }
   Serial.println(F("Network is available!"));
-  
+
   // Power down the modem
   Serial.println(F("Putting the 9603N to sleep."));
   err = modem.sleep();
@@ -141,7 +141,7 @@ void setup()
     Serial.print(F("sleep failed: error "));
     Serial.println(err);
   }
-  
+
   // Disable 9603N power
   Serial.println(F("Disabling 9603N power..."));
   modem.enable9603Npower(false);

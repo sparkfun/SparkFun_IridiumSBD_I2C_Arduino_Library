@@ -1,20 +1,20 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Ring_I2C
- * 
+ *
  * This sketch demonstrates how to use the Iridium RING line to detect
  * when inbound messages are available and retrieve them.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
  */
- 
+
 #define IridiumWire Wire
 #define DIAGNOSTICS false // Change this to enable diagnostics
 
@@ -30,7 +30,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
   Serial.println(F("Iridium SBD Ring I2C"));
-  
+
   //empty the serial buffer
   while(Serial.available() > 0) Serial.read();
 

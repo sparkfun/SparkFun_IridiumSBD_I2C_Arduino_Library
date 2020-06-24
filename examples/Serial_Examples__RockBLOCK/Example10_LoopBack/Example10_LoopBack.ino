@@ -1,25 +1,25 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Loop Back
- * 
+ *
  * This sketch demonstrates how to forward a message to another RockBLOCK
  * via the Rock7 RockBLOCK Gateway. The message is looped back to your
  * RockBLOCK by prefixing the message with "RB" and the RockBLOCK serial
  * number of your transceiver padded out to seven digits.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
  * works fine as well.
- * 
+ *
  * Open the Serial Monitor and set the Baud Rate to 115200
  * and the line ending to Carriage Return
- * 
+ *
  * Part of the code is based on Tom Igoe's Serial Event example:
  * https://www.arduino.cc/en/Tutorial/SerialEvent
  */
@@ -88,7 +88,7 @@ void loop()
   // Process the string when a carriage return arrives:
   int RockBLOCK = inputString.toInt(); // Convert the serial number to int
   Serial.println(RockBLOCK);
-  
+
   // Construct the message
   // Prefix with "RB" and the RockBLOCK serial number padded out to seven digits
   char outBuffer[50]; // Always try to keep message short
@@ -128,7 +128,7 @@ void loop()
   size_t bufferSize = sizeof(buffer);
 
   err = modem.sendReceiveSBDText(NULL, buffer, bufferSize);
-    
+
   if (err != ISBD_SUCCESS)
   {
     Serial.print(F("sendReceiveSBD* failed: error "));
@@ -152,7 +152,7 @@ void loop()
     }
     else
     {
-      Serial.println(F("The loop back failed. Are you sure you entered the correct serial number?"));      
+      Serial.println(F("The loop back failed. Are you sure you entered the correct serial number?"));
     }
   }
 

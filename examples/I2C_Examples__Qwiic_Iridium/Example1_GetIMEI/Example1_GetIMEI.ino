@@ -1,14 +1,14 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 #include <Wire.h> //Needed for I2C communication
 
 /*
  * Get IMEI
- * 
+ *
  * This sketch requests the satellite modem's IMEI number.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * a serial console and a hardware I2C (Wire) port. It assumes
  * the SparkFun Qwiic Iridium 9603N is connected via I2C.
@@ -23,7 +23,7 @@ IridiumSBD modem(IridiumWire);
 void setup()
 {
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial); // Wait for the user to open the serial monitor
@@ -107,7 +107,7 @@ void setup()
     Serial.print(F("sleep failed: error "));
     Serial.println(err);
   }
-  
+
   // Disable 9603N power
   Serial.println(F("Disabling 9603N power..."));
   modem.enable9603Npower(false);

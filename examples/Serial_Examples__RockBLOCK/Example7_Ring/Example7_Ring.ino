@@ -1,22 +1,22 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 /*
  * Ring
- * 
+ *
  * This sketch demonstrates how to use the Iridium RING line to detect
  * when inbound messages are available and retrieve them.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
  * works fine as well.
- * 
+ *
  * This sketch assumes the Ring Indicator pin is connected to Arduino pin 5
- * 
+ *
  */
- 
+
 #define IridiumSerial Serial1
 #define RING_PIN 5
 #define DIAGNOSTICS false // Change this to see diagnostics

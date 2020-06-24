@@ -1,12 +1,12 @@
-#include <IridiumSBD.h>
+#include <IridiumSBD.h> // Click here to get the library: http://librarymanager/All#IridiumSBDI2C
 
 /*
  * Get IMEI
- * 
+ *
  * This sketch requests the satellite modem's IMEI number.
- * 
+ *
  * Assumptions
- * 
+ *
  * The sketch assumes an Arduino Mega or other Arduino-like device with
  * multiple HardwareSerial ports.  It assumes the satellite modem is
  * connected to Serial1.  Change this as needed.  SoftwareSerial on an Uno
@@ -23,7 +23,7 @@ void setup()
 {
   int signalQuality = -1;
   int err;
-  
+
   // Start the console serial port
   Serial.begin(115200);
   while (!Serial);
