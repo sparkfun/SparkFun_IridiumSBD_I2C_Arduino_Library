@@ -168,6 +168,12 @@ void IridiumSBD::adjustSendReceiveTimeout(int seconds)
    this->sendReceiveTimeout = seconds;
 }
 
+// Tweak ISBD startup timeout
+void IridiumSBD::adjustStartupTimeout(int seconds)
+{
+   this->startupTimeout = seconds;
+}
+
 void IridiumSBD::useMSSTMWorkaround(bool useWorkAround) // true to use workaround from Iridium Alert 5/7
 {
    this->msstmWorkaroundRequested = useWorkAround;
@@ -539,7 +545,7 @@ int IridiumSBD::internalBegin()
          return ISBD_CANCELLED;
 
    // Turn on modem and wait for a response from "AT" command to begin
-   for (unsigned long start = millis(); !modemAlive && millis() - start < 1000UL * ISBD_STARTUP_MAX_TIME;)
+   for (unsigned long start = millis(); !modemAlive && millis() - start < 1000UL * this->startupTimeout;)
    {
       send(F("AT\r"));
       modemAlive = waitForATResponse();
