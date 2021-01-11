@@ -114,6 +114,7 @@ public:
    void setPowerProfile(POWERPROFILE profile); // 0 = direct connect (default), 1 = USB
    void adjustATTimeout(int seconds);          // default value = 20 seconds
    void adjustSendReceiveTimeout(int seconds); // default value = 300 seconds
+   void adjustStartupTimeout(int seconds); // default value = 240 seconds
    void useMSSTMWorkaround(bool useMSSTMWorkAround); // true to use workaround from Iridium Alert 5/7/13
    void enableRingAlerts(bool enable);
 
@@ -140,6 +141,7 @@ public:
       sbdixInterval = ISBD_USB_SBDIX_INTERVAL;
       atTimeout = ISBD_DEFAULT_AT_TIMEOUT;
       sendReceiveTimeout = ISBD_DEFAULT_SENDRECEIVE_TIME;
+      startupTimeout = ISBD_STARTUP_MAX_TIME;
       remainingMessages = -1;
       asleep = true;
       reentrant = false;
@@ -168,6 +170,7 @@ public:
       sbdixInterval = ISBD_USB_SBDIX_INTERVAL;
       atTimeout = ISBD_DEFAULT_AT_TIMEOUT;
       sendReceiveTimeout = ISBD_DEFAULT_SENDRECEIVE_TIME;
+      startupTimeout = ISBD_STARTUP_MAX_TIME;
       remainingMessages = -1;
       asleep = true;
       reentrant = false;
@@ -206,6 +209,7 @@ private:
    int sbdixInterval;
    int atTimeout;
    int sendReceiveTimeout;
+   int startupTimeout;
    unsigned long lastCheck = 0; // The time in millis when the I2C bus was last checked (limits I2C traffic)
    const uint8_t I2C_POLLING_WAIT_MS = 5; //Limit checking of new characters to every 5 ms (roughly 10 chars at 19200 baud)
 
