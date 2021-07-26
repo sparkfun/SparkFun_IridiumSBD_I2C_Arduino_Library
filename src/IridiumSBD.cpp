@@ -741,7 +741,7 @@ int IridiumSBD::internalSendReceiveSBD(const char *txTxtMessage, const uint8_t *
          diagprint(moCode);
          diagprint(F("\r\n"));
 
-         if (moCode >= 0 && moCode <= 4) // this range indicates successful return!
+         if (moCode <= 4) // this range indicates successful return!
          {
             diagprint(F("SBDIX success!\r\n"));
 
@@ -1393,7 +1393,7 @@ void IridiumSBD::check9603data()
     wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
     wireport->write(LEN_REG); // Point to the serial buffer length
     wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-    if (wireport->requestFrom((uint8_t)deviceaddress, 2) == 2) // Request two bytes
+    if (wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)2) == 2) // Request two bytes
     {
       uint8_t msb = wireport->read();
       uint8_t lsb = wireport->read();
@@ -1411,14 +1411,14 @@ void IridiumSBD::check9603data()
       wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
       while (bytesAvailable > SER_PACKET_SIZE) // If there are _more_ than SER_PACKET_SIZE bytes to be read
       {
-        wireport->requestFrom((uint8_t)deviceaddress, SER_PACKET_SIZE, false); // Request SER_PACKET_SIZE bytes, don't release the bus
+        wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)SER_PACKET_SIZE, (uint8_t)false); // Request SER_PACKET_SIZE bytes, don't release the bus
         while (wireport->available())
         {
           i2cSerPoke(wireport->read()); // Read and store each byte
         }
         bytesAvailable -= SER_PACKET_SIZE; // Decrease the number of bytes available by SER_PACKET_SIZE
       }
-      wireport->requestFrom((uint8_t)deviceaddress, bytesAvailable); // Request remaining bytes, release the bus
+      wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)bytesAvailable); // Request remaining bytes, release the bus
       while (wireport->available())
       {
         i2cSerPoke(wireport->read()); // Read and store each byte
@@ -1436,7 +1436,7 @@ void IridiumSBD::check9603pins()
   wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
   wireport->write(IO_REG); // Point to the 'IO register'
   wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-  if (wireport->requestFrom((uint8_t)deviceaddress, 1) == 1) // Request one byte from the IO register
+  if (wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)1) == 1) // Request one byte from the IO register
   {
     IO_REGISTER = wireport->read(); // Read the IO register
   }
@@ -1466,7 +1466,7 @@ int IridiumSBD::internalPassThruI2Cread(uint8_t *rxBuffer, size_t &rxBufferSize,
   wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
   wireport->write(LEN_REG); // Point to the serial buffer length
   wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-  if (wireport->requestFrom((uint8_t)deviceaddress, 2) == 2) // Request two bytes
+  if (wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)2) == 2) // Request two bytes
   {
     uint8_t msb = wireport->read();
     uint8_t lsb = wireport->read();
@@ -1488,7 +1488,7 @@ int IridiumSBD::internalPassThruI2Cread(uint8_t *rxBuffer, size_t &rxBufferSize,
     wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
     while (bytesAvailable > SER_PACKET_SIZE) // If there are _more_ than SER_PACKET_SIZE bytes to be read
     {
-      wireport->requestFrom((uint8_t)deviceaddress, SER_PACKET_SIZE, false); // Request SER_PACKET_SIZE bytes, don't release the bus
+      wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)SER_PACKET_SIZE, (uint8_t)false); // Request SER_PACKET_SIZE bytes, don't release the bus
       while (wireport->available())
       {
         uint8_t dbyte = wireport->read(); // Read a byte
@@ -1500,7 +1500,7 @@ int IridiumSBD::internalPassThruI2Cread(uint8_t *rxBuffer, size_t &rxBufferSize,
       }
       bytesAvailable -= SER_PACKET_SIZE; // Decrease the number of bytes available by SER_PACKET_SIZE
     }
-    wireport->requestFrom((uint8_t)deviceaddress, bytesAvailable); // Request remaining bytes, release the bus
+    wireport->requestFrom((uint8_t)deviceaddress, (uint8_t)bytesAvailable); // Request remaining bytes, release the bus
     while (wireport->available())
     {
       uint8_t dbyte = wireport->read(); // Read a byte
