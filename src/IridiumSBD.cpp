@@ -1393,16 +1393,11 @@ void IridiumSBD::check9603data()
     wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
     wireport->write(LEN_REG); // Point to the serial buffer length
     wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-    wireport->requestFrom((uint8_t)deviceaddress, 2); // Request two bytes
-    if (wireport->available() >= 2)
+    if (wireport->requestFrom((uint8_t)deviceaddress, 2) == 2) // Request two bytes
     {
       uint8_t msb = wireport->read();
       uint8_t lsb = wireport->read();
       bytesAvailable = (((uint16_t)msb) << 8) | lsb;
-    }
-    while (wireport->available())
-    {
-      wireport->read(); // Mop up any unexpected bytes
     }
 
     //Now read the serial bytes (if any)
@@ -1441,14 +1436,9 @@ void IridiumSBD::check9603pins()
   wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
   wireport->write(IO_REG); // Point to the 'IO register'
   wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-  wireport->requestFrom((uint8_t)deviceaddress, 1); // Request one byte from the IO register
-  if (wireport->available())
+  if (wireport->requestFrom((uint8_t)deviceaddress, 1) == 1) // Request one byte from the IO register
   {
     IO_REGISTER = wireport->read(); // Read the IO register
-  }
-  while (wireport->available())
-  {
-    wireport->read(); // Mop up any unexpected bytes (hopefully redundant!?)
   }
 }
 
@@ -1476,16 +1466,11 @@ int IridiumSBD::internalPassThruI2Cread(uint8_t *rxBuffer, size_t &rxBufferSize,
   wireport->beginTransmission((uint8_t)deviceaddress); // Talk to the I2C device
   wireport->write(LEN_REG); // Point to the serial buffer length
   wireport->endTransmission(); // Send data and release the bus (the 841 (WireS) doesn't like it if the Master holds the bus!)
-  wireport->requestFrom((uint8_t)deviceaddress, 2); // Request two bytes
-  if (wireport->available() >= 2)
+  if (wireport->requestFrom((uint8_t)deviceaddress, 2) == 2) // Request two bytes
   {
     uint8_t msb = wireport->read();
     uint8_t lsb = wireport->read();
     bytesAvailable = (((uint16_t)msb) << 8) | lsb;
-  }
-  while (wireport->available())
-  {
-    wireport->read(); // Mop up any unexpected bytes
   }
 
   numBytes = (size_t)bytesAvailable; //Store bytesAvailable in numBytes
