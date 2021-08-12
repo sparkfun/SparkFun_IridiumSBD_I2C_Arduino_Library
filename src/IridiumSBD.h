@@ -134,6 +134,10 @@ public:
    int passThruI2Cread(uint8_t *rxBuffer, size_t &rxBufferSize, size_t &numBytes);
    int passThruI2Cwrite(uint8_t *txBuffer, size_t &txBufferSize);
 
+   // Weak functions to configure and set the sleep pin - user can overwrite with a custom functions if required
+   void configureSleepPin() __attribute__((weak));
+   void setSleepPin(uint8_t enable) __attribute__((weak));
+
    IridiumSBD(Stream &str, int sleepPinNo = -1, int ringPinNo = -1)
    {
       useSerial = true;
@@ -146,6 +150,7 @@ public:
       asleep = true;
       reentrant = false;
       sleepPin = sleepPinNo;
+      sleepPinConfigured = false;
       ringPin = ringPinNo;
       msstmWorkaroundRequested = true;
       ringAlertsEnabled = {ringPinNo != -1};
@@ -175,6 +180,7 @@ public:
       asleep = true;
       reentrant = false;
       sleepPin = -1;
+      sleepPinConfigured = false;
       ringPin = -1;
       msstmWorkaroundRequested = false;
       ringAlertsEnabled = true;
@@ -218,6 +224,7 @@ private:
    bool asleep;
    bool reentrant;
    int  sleepPin;
+   bool sleepPinConfigured;
    int  ringPin;
    bool msstmWorkaroundRequested;
    bool ringAlertsEnabled;
