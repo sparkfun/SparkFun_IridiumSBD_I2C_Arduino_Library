@@ -1101,7 +1101,11 @@ void IridiumSBD::power(bool on)
       }
       else
       {
-          pinMode(this->sleepPin, OUTPUT); // Make the sleep pin an output
+          if (this->sleepPinConfigured == false)
+          {
+             configureSleepPin();
+             this->sleepPinConfigured = true;
+          }
       }
    }
 
@@ -1110,7 +1114,7 @@ void IridiumSBD::power(bool on)
       diagprint(F("Powering on modem...\r\n"));
       if (this->useSerial)
       {
-         digitalWrite(this->sleepPin, HIGH); // HIGH = awake
+         setSleepPin(HIGH); // HIGH = awake
       }
       else
       {
@@ -1118,7 +1122,6 @@ void IridiumSBD::power(bool on)
       }
       lastPowerOnTime = millis();
    }
-
    else
    {
       // Best Practices Guide suggests waiting at least 2 seconds
@@ -1130,13 +1133,29 @@ void IridiumSBD::power(bool on)
       diagprint(F("Powering off modem...\r\n"));
       if (this->useSerial)
       {
-         digitalWrite(this->sleepPin, LOW); // LOW = asleep
+         setSleepPin(LOW); // LOW = asleep
       }
       else
       {
          enable9603(false);
       }
    }
+}
+
+void IridiumSBD::configureSleepPin()
+{
+   pinMode(this->sleepPin, OUTPUT); // Make the sleep pin an output
+   diagprint(F("configureSleepPin: sleepPin configured\r\n"));
+}
+
+void IridiumSBD::setSleepPin(uint8_t enable)
+{
+   digitalWrite(this->sleepPin, enable); // HIGH = awake, LOW = asleep
+   diagprint(F("setSleepPin: sleepPin set "));
+   if (enable == HIGH)
+      diagprint(F("HIGH\r\n"));
+   else
+      diagprint(F("LOW\r\n"));
 }
 
 void IridiumSBD::send(FlashString str, bool beginLine, bool endLine)

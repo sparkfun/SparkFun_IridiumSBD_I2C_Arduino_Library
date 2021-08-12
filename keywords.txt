@@ -45,6 +45,8 @@ getIMEI	KEYWORD2
 isConnected	KEYWORD2
 passThruI2Cread	KEYWORD2
 passThruI2Cwrite	KEYWORD2
+configureSleepPin	KEYWORD2
+setSleepPin	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
