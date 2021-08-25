@@ -138,6 +138,10 @@ public:
    void configureSleepPin() __attribute__((weak));
    void setSleepPin(uint8_t enable) __attribute__((weak));
 
+   // Weak functions to begin and end the Serial port after power(true) and before power(false)
+   void beginSerialPort() __attribute__((weak));
+   void endSerialPort() __attribute__((weak));
+
    IridiumSBD(Stream &str, int sleepPinNo = -1, int ringPinNo = -1)
    {
       useSerial = true;
