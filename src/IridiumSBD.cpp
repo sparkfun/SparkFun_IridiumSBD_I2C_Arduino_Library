@@ -46,7 +46,11 @@ int IridiumSBD::begin()
 
    // Absent a successful startup, keep the device turned off
    if (ret != ISBD_SUCCESS)
+   {
+      if (this->useSerial)
+         endSerialPort(); // Apollo3 v2.1 Serial fix
       power(false);
+   }
 
    return ret;
 }
@@ -125,7 +129,12 @@ int IridiumSBD::sleep()
    this->reentrant = false;
 
    if (ret == ISBD_SUCCESS)
+   {
+      if (this->useSerial)
+         endSerialPort(); // Apollo3 v2.1 Serial fix
       power(false); // power off
+   }
+
    return ret;
 }
 
@@ -536,6 +545,9 @@ int IridiumSBD::internalBegin()
    }
 
    power(true); // power on
+
+   if (this->useSerial) // If we are using Serial
+      beginSerialPort(); // Apollo3 v2.1 Serial fix
 
    bool modemAlive = false;
 
@@ -1156,6 +1168,16 @@ void IridiumSBD::setSleepPin(uint8_t enable)
       diagprint(F("HIGH\r\n"));
    else
       diagprint(F("LOW\r\n"));
+}
+
+void IridiumSBD::beginSerialPort()
+{
+   diagprint(F("IridiumSBD::beginSerialPort\r\n"));
+}
+
+void IridiumSBD::endSerialPort()
+{
+   diagprint(F("IridiumSBD::endSerialPort\r\n"));
 }
 
 void IridiumSBD::send(FlashString str, bool beginLine, bool endLine)
