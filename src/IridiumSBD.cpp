@@ -546,15 +546,15 @@ int IridiumSBD::internalBegin()
 
    power(true); // power on
 
-   if (this->useSerial) // If we are using Serial
-      beginSerialPort(); // Apollo3 v2.1 Serial fix
-
    bool modemAlive = false;
 
    unsigned long startupTime = 500; //ms
    for (unsigned long start = millis(); millis() - start < startupTime;)
       if (cancelled())
          return ISBD_CANCELLED;
+
+   if (this->useSerial) // If we are using Serial
+      beginSerialPort(); // Apollo3 v2.1 Serial fix - begin the Serial port 500ms after power(true)
 
    // Turn on modem and wait for a response from "AT" command to begin
    for (unsigned long start = millis(); !modemAlive && millis() - start < 1000UL * this->startupTimeout;)
