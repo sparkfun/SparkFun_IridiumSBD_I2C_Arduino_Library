@@ -256,6 +256,7 @@ int IridiumSBD::getSystemTime(struct tm &tm)
    epoch_start.tm_hour = 14;
    epoch_start.tm_min = 23;
    epoch_start.tm_sec = 55;
+   epoch_start.tm_isdst = 0; // Resolves #16
 
    unsigned long ticks_since_epoch = strtoul(msstmResponseBuf, NULL, 16);
 
