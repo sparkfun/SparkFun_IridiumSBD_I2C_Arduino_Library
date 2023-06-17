@@ -47,6 +47,8 @@ passThruI2Cread	KEYWORD2
 passThruI2Cwrite	KEYWORD2
 configureSleepPin	KEYWORD2
 setSleepPin	KEYWORD2
+beginSerialPort	KEYWORD2
+endSerialPort	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
