@@ -581,6 +581,13 @@ int IridiumSBD::internalBegin()
          return cancelled() ? ISBD_CANCELLED : ISBD_PROTOCOL_ERROR;
    }
 
+   // Set SBD Session Timeout slightly lower than AT timeout
+   send(F("AT+SBDST="), true, false);
+   send(atTimeout - 1);
+   send(F("\r"), false);
+   if (!waitForATResponse())
+      return cancelled() ? ISBD_CANCELLED : ISBD_PROTOCOL_ERROR;
+
    // Enable or disable RING alerts as requested by user
    // By default they are on if a RING pin was supplied on constructor
    diagprint(F("Ring alerts are")); diagprint(ringAlertsEnabled ? F("") : F(" NOT")); diagprint(F(" enabled.\r\n"));
