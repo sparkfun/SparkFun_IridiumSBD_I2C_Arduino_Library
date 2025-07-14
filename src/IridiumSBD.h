@@ -221,7 +221,8 @@ private:
    int sendReceiveTimeout;
    int startupTimeout;
    unsigned long lastCheck = 0; // The time in millis when the I2C bus was last checked (limits I2C traffic)
-   const uint8_t I2C_POLLING_WAIT_MS = 5; //Limit checking of new characters to every 5 ms (roughly 10 chars at 19200 baud)
+   const unsigned long I2C_POLLING_WAIT_MS = 5; //Limit checking of new characters to every 5 ms (roughly 10 chars at 19200 baud)
+   const unsigned long AT_RESPONSE_LOOP_DELAY = 2; //Resolves #19 - 2 ms (roughly 4 chars at 19200 baud)
 
    // State variables
    int remainingMessages;
