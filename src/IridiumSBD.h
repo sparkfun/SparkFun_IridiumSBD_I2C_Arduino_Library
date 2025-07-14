@@ -112,7 +112,7 @@ public:
 
    typedef enum { DEFAULT_POWER_PROFILE = 0, USB_POWER_PROFILE = 1 } POWERPROFILE;
    void setPowerProfile(POWERPROFILE profile); // 0 = direct connect (default), 1 = USB
-   void adjustATTimeout(int seconds);          // default value = 20 seconds
+   void adjustATTimeout(int seconds);          // default value = 30 seconds
    void adjustSendReceiveTimeout(int seconds); // default value = 300 seconds
    void adjustStartupTimeout(int seconds); // default value = 240 seconds
    void useMSSTMWorkaround(bool useMSSTMWorkAround); // true to use workaround from Iridium Alert 5/7/13
