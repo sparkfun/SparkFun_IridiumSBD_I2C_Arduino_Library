@@ -112,7 +112,7 @@ public:
 
    typedef enum { DEFAULT_POWER_PROFILE = 0, USB_POWER_PROFILE = 1 } POWERPROFILE;
    void setPowerProfile(POWERPROFILE profile); // 0 = direct connect (default), 1 = USB
-   void adjustATTimeout(int seconds);          // default value = 20 seconds
+   void adjustATTimeout(int seconds);          // default value = 30 seconds
    void adjustSendReceiveTimeout(int seconds); // default value = 300 seconds
    void adjustStartupTimeout(int seconds); // default value = 240 seconds
    void useMSSTMWorkaround(bool useMSSTMWorkAround); // true to use workaround from Iridium Alert 5/7/13
@@ -221,7 +221,8 @@ private:
    int sendReceiveTimeout;
    int startupTimeout;
    unsigned long lastCheck = 0; // The time in millis when the I2C bus was last checked (limits I2C traffic)
-   const uint8_t I2C_POLLING_WAIT_MS = 5; //Limit checking of new characters to every 5 ms (roughly 10 chars at 19200 baud)
+   const unsigned long I2C_POLLING_WAIT_MS = 5; //Limit checking of new characters to every 5 ms (roughly 10 chars at 19200 baud)
+   const unsigned long AT_RESPONSE_LOOP_DELAY = 2; //Resolves #19 - 2 ms (roughly 4 chars at 19200 baud)
 
    // State variables
    int remainingMessages;

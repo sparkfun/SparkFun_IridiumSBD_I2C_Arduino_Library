@@ -947,6 +947,8 @@ bool IridiumSBD::waitForATResponse(char *response, int responseSize, const char 
             matchTerminatorPos = c == terminator[0] ? 1 : 0;
          }
       } // while (filteredavailable() > 0)
+
+      delay(AT_RESPONSE_LOOP_DELAY); // Resolve #19
    } // timer loop
    return false;
 }
