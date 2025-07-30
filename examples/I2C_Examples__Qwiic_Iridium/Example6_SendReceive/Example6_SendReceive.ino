@@ -47,6 +47,12 @@ void setup()
   //clean up
   while(Serial.available() > 0) Serial.read();
 
+  // If desired, you can set the SBD session timeout to prevent unhelpful ISBD_PROTOCOL_ERRORs.
+  // The default is 0 (no timeout).
+  #define SATELLITE_TIMEOUT_SBDIX 30
+  //modem.adjustATTimeout(SATELLITE_TIMEOUT_SBDIX + 2); // Set the AT timeout slightly longer
+  //modem.adjustSBDSessionTimeout(SATELLITE_TIMEOUT_SBDIX); // Set the SBD timeout to 30 seconds
+
   // Start the I2C wire port connected to the satellite modem
   Wire.begin();
   Wire.setClock(400000); //Set I2C clock speed to 400kHz
