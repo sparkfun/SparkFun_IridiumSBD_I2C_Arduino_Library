@@ -171,6 +171,24 @@ void IridiumSBD::adjustATTimeout(int seconds)
    this->atTimeout = seconds;
 }
 
+// Tweak SBD Session Timeout
+int IridiumSBD::adjustSBDSessionTimeout(int seconds)
+{
+   if ((seconds >= this->atTimeout) || seconds == 0)
+      diagprint(F("SBD commands that do not complete before AT timeout will return ISBD_PROTOCOL_ERROR\r\n"));
+
+   if (!this->asleep)
+   {
+      send(F("AT+SBDST="), true, false);
+      send(seconds);
+      send(F("\r"), false);
+      if (!waitForATResponse())
+         return cancelled() ? ISBD_CANCELLED : ISBD_PROTOCOL_ERROR;
+   }
+   this->sbdSessionTimeout = seconds;
+   return ISBD_SUCCESS;
+}
+
 // Tweak Send/Receive SBDIX process timeout
 void IridiumSBD::adjustSendReceiveTimeout(int seconds)
 {
@@ -613,6 +631,21 @@ int IridiumSBD::internalBegin()
       }
    }
    diagprint(F("MSSTM workaround is")); diagprint(msstmWorkaroundRequested ? F("") : F(" NOT")); diagprint(F(" enforced.\r\n"));
+
+   // Set SBD session timeout only if it has been changed from the default (to avoid regressions)
+   // ISU AT Command Reference: "The <timeout> setting is stored only while the SBD Modem is powered up, and defaults to zero (meaning infinite timeout) after a power-cycle."
+   if (this->sbdSessionTimeout != ISBD_DEFAULT_SBDSESSION_TIMEOUT)
+   {
+      ret = adjustSBDSessionTimeout(this->sbdSessionTimeout);
+      if (ret != ISBD_SUCCESS)
+      {
+         diagprint(F("adjustSBDSessionTimeout: failed\r\n"));
+      }
+      else
+      {
+         diagprint(F("adjustSBDSessionTimeout: success!\r\n"));
+      }
+   }
 
    // Done!
    diagprint(F("InternalBegin: success!\r\n"));

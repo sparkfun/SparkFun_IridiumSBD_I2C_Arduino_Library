@@ -67,6 +67,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define ISBD_DEFAULT_AT_TIMEOUT         30
 #define ISBD_MSSTM_RETRY_INTERVAL       10
 #define ISBD_DEFAULT_SBDIX_INTERVAL     10
+#define ISBD_DEFAULT_SBDSESSION_TIMEOUT 0
 #define ISBD_USB_SBDIX_INTERVAL         30
 #define ISBD_DEFAULT_SENDRECEIVE_TIME   300
 #define ISBD_STARTUP_MAX_TIME           240
@@ -113,6 +114,7 @@ public:
    typedef enum { DEFAULT_POWER_PROFILE = 0, USB_POWER_PROFILE = 1 } POWERPROFILE;
    void setPowerProfile(POWERPROFILE profile); // 0 = direct connect (default), 1 = USB
    void adjustATTimeout(int seconds);          // default value = 30 seconds
+   int adjustSBDSessionTimeout(int seconds);   // 0 = infinite (default)
    void adjustSendReceiveTimeout(int seconds); // default value = 300 seconds
    void adjustStartupTimeout(int seconds); // default value = 240 seconds
    void useMSSTMWorkaround(bool useMSSTMWorkAround); // true to use workaround from Iridium Alert 5/7/13
@@ -147,6 +149,7 @@ public:
       useSerial = true;
       stream = &str;
       sbdixInterval = ISBD_USB_SBDIX_INTERVAL;
+      sbdSessionTimeout = ISBD_DEFAULT_SBDSESSION_TIMEOUT;
       atTimeout = ISBD_DEFAULT_AT_TIMEOUT;
       sendReceiveTimeout = ISBD_DEFAULT_SENDRECEIVE_TIME;
       startupTimeout = ISBD_STARTUP_MAX_TIME;
@@ -177,6 +180,7 @@ public:
       wireport = &wirePort;
       deviceaddress = deviceAddress;
       sbdixInterval = ISBD_USB_SBDIX_INTERVAL;
+      sbdSessionTimeout = ISBD_DEFAULT_SBDSESSION_TIMEOUT;
       atTimeout = ISBD_DEFAULT_AT_TIMEOUT;
       sendReceiveTimeout = ISBD_DEFAULT_SENDRECEIVE_TIME;
       startupTimeout = ISBD_STARTUP_MAX_TIME;
@@ -217,6 +221,7 @@ private:
 
    // Timings
    int sbdixInterval;
+   int sbdSessionTimeout;
    int atTimeout;
    int sendReceiveTimeout;
    int startupTimeout;
