@@ -36,6 +36,12 @@ void setup()
   while (!Serial);
   IridiumSerial.begin(19200);
 
+  // If desired, you can set the SBD session timeout to prevent unhelpful ISBD_PROTOCOL_ERRORs.
+  // The default is 0 (no timeout).
+  #define SATELLITE_TIMEOUT_SBDIX 30
+  //modem.adjustATTimeout(SATELLITE_TIMEOUT_SBDIX + 2); // Set the AT timeout slightly longer
+  //modem.adjustSBDSessionTimeout(SATELLITE_TIMEOUT_SBDIX); // Set the SBD timeout to 30 seconds
+
   // Setup the Iridium modem
   modem.setPowerProfile(IridiumSBD::USB_POWER_PROFILE);
   if (modem.begin() != ISBD_SUCCESS)

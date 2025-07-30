@@ -23,6 +23,7 @@ sleep	KEYWORD2
 isAsleep	KEYWORD2
 setPowerProfile	KEYWORD2
 adjustATTimeout	KEYWORD2
+adjustSBDSessionTimeout	KEYWORD2
 adjustSendReceiveTimeout	KEYWORD2
 adjustStartupTimeout	KEYWORD2
 useMSSTMWorkaround	KEYWORD2
