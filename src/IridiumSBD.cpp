@@ -266,15 +266,33 @@ int IridiumSBD::getSystemTime(struct tm &tm)
    if (!isxdigit(msstmResponseBuf[0]))
       return ISBD_NO_NETWORK;
 
-   // Latest epoch began at May 11, 2014, at 14:23:55 UTC.
-   struct tm epoch_start;
-   epoch_start.tm_year = 2014 - 1900;
-   epoch_start.tm_mon = 5 - 1;
-   epoch_start.tm_mday = 11;
-   epoch_start.tm_hour = 14;
-   epoch_start.tm_min = 23;
-   epoch_start.tm_sec = 55;
-   epoch_start.tm_isdst = 0; // Resolves #16
+   // From the AT Command Reference:
+   //   The system time as received through the Iridium Air
+   //   Interface, is a 32 bit integer count of the number of 90 millisecond
+   //   intervals that have elapsed since the epoch. The return value is
+   //   formatted as an ASCII hexadecimal number. The counter will rollover
+   //   approximately every 12 years or be changed to prevent a rollover and
+   //   as a result should not be used as a time source for user applications   
+
+   // Current epoch: May 11, 2014, at 14:23:55 UTC.
+   struct tm epoch_start_current;
+   epoch_start_current.tm_year = 2014 - 1900;
+   epoch_start_current.tm_mon = 5 - 1;
+   epoch_start_current.tm_mday = 11;
+   epoch_start_current.tm_hour = 14;
+   epoch_start_current.tm_min = 23;
+   epoch_start_current.tm_sec = 55;
+   epoch_start_current.tm_isdst = 0; // Resolves #16
+
+   // Future epoch: February 14, 2025, at 18:14:17 UTC.
+   struct tm epoch_start_future;
+   epoch_start_future.tm_year = 2025 - 1900;
+   epoch_start_future.tm_mon = 2 - 1;
+   epoch_start_future.tm_mday = 14;
+   epoch_start_future.tm_hour = 18;
+   epoch_start_future.tm_min = 14;
+   epoch_start_future.tm_sec = 17;
+   epoch_start_future.tm_isdst = 0; // Resolves #16
 
    unsigned long ticks_since_epoch = strtoul(msstmResponseBuf, NULL, 16);
 
@@ -288,9 +306,23 @@ int IridiumSBD::getSystemTime(struct tm &tm)
    unsigned long small_ticks = ticks_since_epoch - (secs_since_epoch / 90) * 1000;
    secs_since_epoch += small_ticks * 90 / 1000;
 
-   time_t epoch_time = mktime(&epoch_start);
+   time_t epoch_time = mktime(&epoch_start_current); // Try current epoch first
    time_t now = epoch_time + secs_since_epoch;
+   struct tm * local_now = localtime(&now);
+
+   // Extract the current year from __DATE__
+   int build_year = (((int)(__DATE__[7] - 0x30) * 1000) + ((int)(__DATE__[8] - 0x30) * 100)
+                   + ((int)(__DATE__[9] - 0x30) * 10)  + ((int)(__DATE__[10] - 0x30) * 1));
+
+   // Check if year is within bounds
+   if ((local_now->tm_year + 1900) < build_year)
+   {
+      epoch_time = mktime(&epoch_start_future); // Use future epoch
+      now = epoch_time + secs_since_epoch;
+   }
+
    memcpy(&tm, localtime(&now), sizeof tm);
+
    return ISBD_SUCCESS;
 }
 
